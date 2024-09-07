@@ -17,7 +17,7 @@ def encode_image(image_path):
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         return encoded_image
     except Exception as e:
-        st.error(f"Fehler beim Kodieren des Bildes: {e}")
+        st.error(f" :X: Fehler beim Kodieren des Bildes: {e}")
         return None
 
 def json_to_dataframe(content):
@@ -46,7 +46,7 @@ def json_to_dataframe(content):
         return df
 
     except Exception as e:
-        st.error(f"Fehler beim Umwandeln des JSON-Inhalts in einen DataFrame: {e}")
+        st.error(f" :X: Fehler beim Umwandeln des JSON-Inhalts in einen DataFrame: {e}")
         return None
 
 
@@ -94,11 +94,11 @@ def analyze_image(image_path):
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         response.raise_for_status()  # Überprüft auf HTTP-Fehler
     except requests.exceptions.RequestException as e:
-        st.error(f"Fehler bei der API-Anfrage: {e}")
+        st.error(f" :X: Fehler bei der API-Anfrage: {e}")
         return None
 
     # API-Antwort verarbeiten
-    with st.expander("Klicken für API-Rohantwort"):
+    with st.expander("Hier klicken für die API-Rohantwort"):
         st.write('''
 
         ''')
@@ -115,10 +115,10 @@ def analyze_image(image_path):
             df = json_to_dataframe(content)
             return df
         except json.JSONDecodeError as e:
-            st.error(f"Fehler beim Dekodieren des JSON-Inhalts: {e}")
+            st.error(f" :X: Fehler beim Dekodieren des JSON-Inhalts: {e}")
             return None
         except Exception as e:
-            st.error(f"Allgemeiner Fehler bei der Verarbeitung der API-Antwort: {e}")
+            st.error(f" :X: Allgemeiner Fehler bei der Verarbeitung der API-Antwort: {e}")
             return None
 
 
@@ -127,10 +127,10 @@ if not os.path.exists("temp"):
     os.makedirs("temp")
 
 # Streamlit App Titel
-st.title(":red[Retrospektive] - :blue[OCR] :camera:")
+st.title(":red[Retrospektive] :purple[-] :blue[OCR] :camera:")
 
 # Widget für die Kameraaufnahme
-camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive:** :camera_flash:")
+camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive:** :camera_with_flash:")
 
 if camera_image:
     # Zeige das aufgenommene Bild an
@@ -158,7 +158,7 @@ if camera_image:
             mime="text/csv",
         )
     else:
-        st.error(f"Fehler bei der Analyse des aufgenommenen Bildes")
+        st.error(f"Fehler bei der Analyse des aufgenommenen Bildes :exclamation:")
 
 # Drag-and-Drop Feld für den Bildupload
 uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke auf Hochladen:** :file_folder:", type=["jpg", "jpeg", "png"],
@@ -190,7 +190,7 @@ if uploaded_files:
                 mime="text/csv",
             )
         else:
-            st.error(f"Fehler bei der Analyse von {uploaded_file.name}")
+            st.error(f"Fehler bei der Analyse von {uploaded_file.name} :exclamation:")
 
 # Cleanup temporäre Dateien nach der Verarbeitung
 if os.path.exists("temp"):
