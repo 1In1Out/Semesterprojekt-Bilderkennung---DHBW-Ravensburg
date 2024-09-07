@@ -10,18 +10,16 @@ import os  # Betriebssystemfunktionen wie Dateiverwaltung
 # OpenAI API Key
 api_key = st.secrets["api_key_streamlit_secret"]
 
-
 def encode_image(image_path):
     # Bild in Base64 kodieren
     try:
         with open(image_path, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-        st.success("Bild erfolgreich kodiert!", icon="🎉")  # Success message nach erfolgreicher Kodierung
+        st.success("Bild erfolgreich kodiert!")  # Erfolgsmeldung
         return encoded_image
     except Exception as e:
         st.error(f"Fehler beim Kodieren des Bildes: {e}")
         return None
-
 
 def json_to_dataframe(content):
     try:
@@ -34,10 +32,9 @@ def json_to_dataframe(content):
 
         # Verwende ausschließlich den Schlüssel "table"
         if "table" in data:
-
             # Konvertiere das Dictionary in einen DataFrame
             df = pd.DataFrame(data["table"])
-
+            st.success("Tabelle erfolgreich aus JSON erstellt!")  # Erfolgsmeldung
         else:
             st.error("Kein 'table'-Schlüssel in den JSON-Daten gefunden.")
             return None
@@ -46,8 +43,6 @@ def json_to_dataframe(content):
         if "Description" in df.columns:
             df["Description"] = df["Description"].apply(lambda x: "\n- ".join(x) if isinstance(x, list) else x)
 
-        st.success("JSON erfolgreich in DataFrame konvertiert!",
-                   icon="📊")  # Success message nach erfolgreicher Konvertierung
         return df
 
     except Exception as e:
@@ -75,12 +70,12 @@ def analyze_image(image_path):
                     {
                         "type": "text",
                         "text": "Analyze the image and create a table with the following columns: Category and Description. "
-                                "The categories are based on the date, participants, and the symbols in the image: Crown = Erfolge, "
-                                "Lightbulb = Erkenntnisse, Heart = Positives, Checklist = ToDos. List the corresponding points under the "
-                                "appropriate category, including any text on the right side of the image as additional bullet points in the same row. "
-                                "Omit the symbol labels. The table should be well-structured and formatted as pure JSON, using the key 'table'. "
-                                "Ignore the use of colors. If bullet points are written side by side, write them on separate lines in the table. "
-                                "Include all the text from the image. Return the content directly as valid JSON with the key 'table' without any additional characters or formatting."
+                    "The categories are based on the date, participants, and the symbols in the image: Crown = Erfolge, "
+                    "Lightbulb = Erkenntnisse, Heart = Positives, Checklist = ToDos. List the corresponding points under the "
+                    "appropriate category, including any text on the right side of the image as additional bullet points in the same row. "
+                    "Omit the symbol labels. The table should be well-structured and formatted as pure JSON, using the key 'table'. "
+                    "Ignore the use of colors. If bullet points are written side by side, write them on separate lines in the table. "
+                    "Include all the text from the image. Return the content directly as valid JSON with the key 'table' without any additional characters or formatting."
                     },
                     {
                         "type": "image_url",
@@ -97,7 +92,7 @@ def analyze_image(image_path):
     try:
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         response.raise_for_status()  # Überprüft auf HTTP-Fehler
-        st.success("API-Anfrage erfolgreich gesendet!", icon="🚀")  # Success message nach erfolgreicher Anfrage
+        st.success("API-Anfrage erfolgreich!")  # Erfolgsmeldung
     except requests.exceptions.RequestException as e:
         st.error(f"Fehler bei der API-Anfrage: {e}")
         return None
@@ -118,7 +113,6 @@ def analyze_image(image_path):
 
             # JSON in DataFrame umwandeln
             df = json_to_dataframe(content)
-            st.success("Bildanalyse erfolgreich abgeschlossen!", icon="✅")  # Success message nach erfolgreicher Analyse
             return df
         except json.JSONDecodeError as e:
             st.error(f"Fehler beim Dekodieren des JSON-Inhalts: {e}")
@@ -131,8 +125,7 @@ def analyze_image(image_path):
 # Erstelle den temporären Ordner, falls er nicht existiert
 if not os.path.exists("temp"):
     os.makedirs("temp")
-    st.success("Temporärer Ordner erfolgreich erstellt!",
-               icon="📁")  # Success message nach erfolgreicher Erstellung des Ordners
+    st.success("Temporärer Ordner erfolgreich erstellt!")  # Erfolgsmeldung
 
 # Streamlit App Titel
 st.title("Bildanalyse mit Streamlit und JSON-Ausgabe")
@@ -143,13 +136,13 @@ camera_image = st.camera_input("Nimm ein Bild auf")
 if camera_image:
     # Zeige das aufgenommene Bild an
     st.image(camera_image, caption="Aufgenommenes Bild", use_column_width=True)
-    st.success('Sie haben ein Bild aufgenommen!', icon="✅")  # Bereits vorhandene Success message
+    st.success("Bild erfolgreich aufgenommen!")  # Erfolgsmeldung
 
     # Speichere das aufgenommene Bild temporär
     temp_path = os.path.join("temp", "camera_image.jpg")
     with open(temp_path, "wb") as f:
         f.write(camera_image.getbuffer())
-    st.success("Bild erfolgreich gespeichert!", icon="💾")  # Success message nach erfolgreicher Speicherung
+    st.success("Bild erfolgreich gespeichert!")  # Erfolgsmeldung
 
     # Rufe die Analyse-Funktion auf
     df = analyze_image(temp_path)
@@ -166,6 +159,7 @@ if camera_image:
             file_name="analyse_ergebnisse_camera_image.csv",
             mime="text/csv",
         )
+        st.success("CSV-Datei erfolgreich erstellt!")  # Erfolgsmeldung
     else:
         st.error(f"Fehler bei der Analyse des aufgenommenen Bildes")
 
@@ -177,15 +171,13 @@ if uploaded_files:
     for uploaded_file in uploaded_files:
         # Zeige das hochgeladene Bild an
         st.image(uploaded_file, caption=f"Hochgeladenes Bild: {uploaded_file.name}", use_column_width=True)
-        st.success(f"{uploaded_file.name} wurde erfolgreich hochgeladen!",
-                   icon="🖼️")  # Success message nach erfolgreichem Upload
+        st.success(f"Bild {uploaded_file.name} erfolgreich hochgeladen!")  # Erfolgsmeldung
 
         # Speichere das Bild temporär
         temp_path = os.path.join("temp", uploaded_file.name)
         with open(temp_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
-        st.success(f"{uploaded_file.name} erfolgreich gespeichert!",
-                   icon="💾")  # Success message nach erfolgreicher Speicherung
+        st.success(f"Bild {uploaded_file.name} erfolgreich gespeichert!")  # Erfolgsmeldung
 
         # Rufe die Analyse-Funktion auf
         df = analyze_image(temp_path)
@@ -202,6 +194,7 @@ if uploaded_files:
                 file_name=f"analyse_ergebnisse_{uploaded_file.name}.csv",
                 mime="text/csv",
             )
+            st.success(f"CSV für {uploaded_file.name} erfolgreich erstellt!")  # Erfolgsmeldung
         else:
             st.error(f"Fehler bei der Analyse von {uploaded_file.name}")
 
@@ -209,5 +202,4 @@ if uploaded_files:
 if os.path.exists("temp"):
     for file in os.listdir("temp"):
         os.remove(os.path.join("temp", file))
-    st.success("Temporäre Dateien erfolgreich gelöscht!",
-               icon="🗑️")  # Success message nach dem Löschen temporärer Dateien
+    st.success("Temporäre Dateien erfolgreich gelöscht!")  # Erfolgsmeldung
