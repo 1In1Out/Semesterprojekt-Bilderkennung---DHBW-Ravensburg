@@ -7,6 +7,7 @@ import pandas as pd  # Pandas für Datenmanipulation
 import json  # Zum Arbeiten mit JSON-Daten
 import os  # Betriebssystemfunktionen wie Dateiverwaltung
 
+st.set_page_config(page_title="Retrospective", page_icon="📸", layout="wide")
 # OpenAI API Key
 api_key = st.secrets["api_key_streamlit_secret"]
 
@@ -125,8 +126,6 @@ def analyze_image(image_path):
 # Erstelle den temporären Ordner, falls er nicht existiert
 if not os.path.exists("temp"):
     os.makedirs("temp")
-
-st.set_page_config(page_title="Retrospective", page_icon="📸", layout="wide")
 
 # Streamlit App Titel
 st.title(":orange[Retrospektive - OCR :material/photo_camera:]")
