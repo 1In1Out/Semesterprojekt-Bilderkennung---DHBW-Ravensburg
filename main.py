@@ -98,7 +98,7 @@ def analyze_image(image_path):
         return None
 
     # API-Antwort verarbeiten
-    with st.expander("Hier klicken für die API-Rohantwort :point_up_2:"):
+    with st.expander("Hier klicken für die API-Rohantwort :material/touch_app"):
         st.write('''
 
         ''')
@@ -152,7 +152,7 @@ if camera_image:
         # CSV-Datei zur Verfügung stellen
         csv = df.to_csv(index=False).encode('utf-8')
         st.download_button(
-            label="Ergebnisse als CSV herunterladen",
+            label="Ergebnisse als CSV herunterladen :material/csv",
             data=csv,
             file_name="analyse_ergebnisse_camera_image.csv",
             mime="text/csv",
