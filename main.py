@@ -161,7 +161,7 @@ if camera_image:
         st.error(f"Fehler bei der Analyse des aufgenommenen Bildes")
 
 # Drag-and-Drop Feld für den Bildupload
-uploaded_files = st.file_uploader("Ziehe einfach ein Bild hierhin oder klicke auf Hochladen:,", type=["jpg", "jpeg", "png"],
+uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke auf Hochladen:**", type=["jpg", "jpeg", "png"],
                                   accept_multiple_files=True)
 
 if uploaded_files:
