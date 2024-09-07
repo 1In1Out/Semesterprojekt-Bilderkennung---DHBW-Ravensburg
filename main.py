@@ -8,7 +8,7 @@ import json  # Zum Arbeiten mit JSON-Daten
 import os  # Betriebssystemfunktionen wie Dateiverwaltung
 
 # OpenAI API Key
-api_key = "xyz"
+api_key = st.secrets["api_key_streamlit_secret"]
 
 def encode_image(image_path):
     # Bild in Base64 kodieren
