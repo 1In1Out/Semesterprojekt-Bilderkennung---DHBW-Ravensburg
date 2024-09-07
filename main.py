@@ -126,6 +126,8 @@ def analyze_image(image_path):
 if not os.path.exists("temp"):
     os.makedirs("temp")
 
+st.set_page_config(page_title="Retrospective", page_icon="📸", layout="wide")
+
 # Streamlit App Titel
 st.title(":orange[Retrospektive - OCR :material/photo_camera:]")
 
