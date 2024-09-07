@@ -130,7 +130,7 @@ if not os.path.exists("temp"):
 st.title(":orange[Retrospektive - OCR :material/photo_camera:]")
 
 # Widget für die Kameraaufnahme
-camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive:** :material/add_a_photo:")
+camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive: :material/add_a_photo:**")
 
 if camera_image:
     # Zeige das aufgenommene Bild an
@@ -161,13 +161,13 @@ if camera_image:
         st.error(f"Fehler bei der Analyse des aufgenommenen Bildes :exclamation:")
 
 # Drag-and-Drop Feld für den Bildupload
-uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke auf Browse File:** :material/upload_file:", type=["jpg", "jpeg", "png"],
+uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke auf Browse File: :material/upload_file:**", type=["jpg", "jpeg", "png"],
                                   accept_multiple_files=True)
 
 if uploaded_files:
     for uploaded_file in uploaded_files:
         # Zeige das hochgeladene Bild an
-        st.image(uploaded_file, caption=f" :material/folder: Hochgeladenes Bild: {uploaded_file.name}", use_column_width=True)
+        st.image(uploaded_file, caption=f"Hochgeladenes Bild: {uploaded_file.name}", use_column_width=True)
 
         # Speichere das Bild temporär
         temp_path = os.path.join("temp", uploaded_file.name)
@@ -178,13 +178,13 @@ if uploaded_files:
         df = analyze_image(temp_path)
         if df is not None:
             # Zeige die Tabelle auf der Streamlit-Seite an
-            st.write(":material/monitoring: Analyseergebnisse:")
+            st.write("**:material/monitoring: Analyseergebnisse:**")
             st.table(df)
 
             # CSV-Datei zur Verfügung stellen
             csv = df.to_csv(index=False).encode('utf-8')
             st.download_button(
-                label="Ergebnisse als CSV herunterladen :material/csv:",
+                label=":green[Ergebnisse als CSV herunterladen :material/csv:]",
                 data=csv,
                 file_name=f"analyse_ergebnisse_{uploaded_file.name}.csv",
                 mime="text/csv",
