@@ -98,7 +98,7 @@ def analyze_image(image_path):
         return None
 
     # API-Antwort verarbeiten
-    with st.expander("Hier klicken für die API-Rohantwort :material/touch_app"):
+    with st.expander("Hier klicken für die API-Rohantwort :material/touch_app:"):
         st.write('''
 
         ''')
@@ -130,7 +130,7 @@ if not os.path.exists("temp"):
 st.title("Retrospektive - OCR :material/photo_camera:")
 
 # Widget für die Kameraaufnahme
-camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive:** :camera_with_flash:")
+camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive:** :material/add_a_photo:")
 
 if camera_image:
     # Zeige das aufgenommene Bild an
@@ -146,13 +146,13 @@ if camera_image:
     df = analyze_image(temp_path)
     if df is not None:
         # Zeige die Tabelle auf der Streamlit-Seite an
-        st.write("Analyseergebnisse:")
+        st.write("Analyseergebnisse: :material/monitoring:")
         st.table(df)
 
         # CSV-Datei zur Verfügung stellen
         csv = df.to_csv(index=False).encode('utf-8')
         st.download_button(
-            label="Ergebnisse als CSV herunterladen :material/csv",
+            label="Ergebnisse als CSV herunterladen :material/csv:",
             data=csv,
             file_name="analyse_ergebnisse_camera_image.csv",
             mime="text/csv",
@@ -161,13 +161,13 @@ if camera_image:
         st.error(f"Fehler bei der Analyse des aufgenommenen Bildes :exclamation:")
 
 # Drag-and-Drop Feld für den Bildupload
-uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke auf Hochladen:** :file_folder:", type=["jpg", "jpeg", "png"],
+uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke auf Browse File:** :file_folder:", type=["jpg", "jpeg", "png"],
                                   accept_multiple_files=True)
 
 if uploaded_files:
     for uploaded_file in uploaded_files:
         # Zeige das hochgeladene Bild an
-        st.image(uploaded_file, caption=f":frame_with_picture: Hochgeladenes Bild: {uploaded_file.name}", use_column_width=True)
+        st.image(uploaded_file, caption=f" :material/folder: Hochgeladenes Bild: {uploaded_file.name}", use_column_width=True)
 
         # Speichere das Bild temporär
         temp_path = os.path.join("temp", uploaded_file.name)
