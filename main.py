@@ -7,7 +7,9 @@ import pandas as pd  # Pandas für Datenmanipulation
 import json  # Zum Arbeiten mit JSON-Daten
 import os  # Betriebssystemfunktionen wie Dateiverwaltung
 
+# Webseiten-Titel
 st.set_page_config(page_title="Retrospective", page_icon="📸")
+
 # OpenAI API Key
 api_key = st.secrets["api_key_streamlit_secret"]
 
