@@ -127,7 +127,7 @@ if not os.path.exists("temp"):
     os.makedirs("temp")
 
 # Streamlit App Titel
-st.title(":organge[Retrospektive - OCR] :camera:")
+st.title(":orange[Retrospektive - OCR] :camera:")
 
 # Widget für die Kameraaufnahme
 camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive:** :camera_with_flash:")
