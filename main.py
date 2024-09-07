@@ -31,7 +31,10 @@ def json_to_dataframe(content):
 
         # Verwende ausschließlich den Schlüssel "table"
         if "table" in data:
+
+            # Konvertiere das Dictionary in einen DataFrame
             df = pd.DataFrame(data["table"])
+
         else:
             st.error("Kein 'table'-Schlüssel in den JSON-Daten gefunden.")
             return None
@@ -45,6 +48,8 @@ def json_to_dataframe(content):
     except Exception as e:
         st.error(f"Fehler beim Umwandeln des JSON-Inhalts in einen DataFrame: {e}")
         return None
+
+
 
 def analyze_image(image_path):
     # Bild kodieren
@@ -66,8 +71,8 @@ def analyze_image(image_path):
                     {
                         "type": "text",
                         "text": "Analyze the image and create a table with the following columns: Category and Description. "
-                    "The categories are based on the date, participants, and the symbols in the image: Crown = Successes, "
-                    "Lightbulb = Insights, Heart = Positives, Checklist = ToDos. List the corresponding points under the "
+                    "The categories are based on the date, participants, and the symbols in the image: Crown = Erfolge, "
+                    "Lightbulb = Erkenntnisse, Heart = Positives, Checklist = ToDos. List the corresponding points under the "
                     "appropriate category, including any text on the right side of the image as additional bullet points in the same row. "
                     "Omit the symbol labels. The table should be well-structured and formatted as pure JSON, using the key 'table'. "
                     "Ignore the use of colors. If bullet points are written side by side, write them on separate lines in the table. "
@@ -123,6 +128,36 @@ if not os.path.exists("temp"):
 
 # Streamlit App Titel
 st.title("Bildanalyse mit Streamlit und JSON-Ausgabe")
+
+# Widget für die Kameraaufnahme
+camera_image = st.camera_input("Nimm ein Bild auf")
+
+if camera_image:
+    # Zeige das aufgenommene Bild an
+    st.image(camera_image, caption="Aufgenommenes Bild", use_column_width=True)
+
+    # Speichere das aufgenommene Bild temporär
+    temp_path = os.path.join("temp", "camera_image.jpg")
+    with open(temp_path, "wb") as f:
+        f.write(camera_image.getbuffer())
+
+    # Rufe die Analyse-Funktion auf
+    df = analyze_image(temp_path)
+    if df is not None:
+        # Zeige die Tabelle auf der Streamlit-Seite an
+        st.write("Analyseergebnisse:")
+        st.table(df)
+
+        # CSV-Datei zur Verfügung stellen
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Ergebnisse als CSV herunterladen",
+            data=csv,
+            file_name="analyse_ergebnisse_camera_image.csv",
+            mime="text/csv",
+        )
+    else:
+        st.error(f"Fehler bei der Analyse des aufgenommenen Bildes")
 
 # Drag-and-Drop Feld für den Bildupload
 uploaded_files = st.file_uploader("Ziehe ein Bild hierhin oder klicke zum Hochladen", type=["jpg", "jpeg", "png"],
