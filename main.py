@@ -127,10 +127,10 @@ if not os.path.exists("temp"):
     os.makedirs("temp")
 
 # Streamlit App Titel
-st.title("Retrospektive - :blue[OCR] :sunglasses:")
+st.title(":red[Retrospektive] - :blue[OCR] :camera:")
 
 # Widget für die Kameraaufnahme
-camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive:**")
+camera_image = st.camera_input("**Mache ein Bild deiner Retrospektive:** :camera_flash:")
 
 if camera_image:
     # Zeige das aufgenommene Bild an
@@ -161,7 +161,7 @@ if camera_image:
         st.error(f"Fehler bei der Analyse des aufgenommenen Bildes")
 
 # Drag-and-Drop Feld für den Bildupload
-uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke auf Hochladen:**", type=["jpg", "jpeg", "png"],
+uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke auf Hochladen:** :file_folder:", type=["jpg", "jpeg", "png"],
                                   accept_multiple_files=True)
 
 if uploaded_files:
@@ -178,13 +178,13 @@ if uploaded_files:
         df = analyze_image(temp_path)
         if df is not None:
             # Zeige die Tabelle auf der Streamlit-Seite an
-            st.write("Analyseergebnisse:")
+            st.write(":chart_with_upwards_trend: Analyseergebnisse:")
             st.table(df)
 
             # CSV-Datei zur Verfügung stellen
             csv = df.to_csv(index=False).encode('utf-8')
             st.download_button(
-                label="Ergebnisse als CSV herunterladen",
+                label="Ergebnisse als CSV herunterladen :page_facing_up:",
                 data=csv,
                 file_name=f"analyse_ergebnisse_{uploaded_file.name}.csv",
                 mime="text/csv",
