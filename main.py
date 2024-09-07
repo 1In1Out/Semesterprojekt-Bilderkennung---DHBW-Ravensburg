@@ -98,7 +98,7 @@ def analyze_image(image_path):
         return None
 
     # API-Antwort verarbeiten
-    with st.expander("Hier klicken für die API-Rohantwort"):
+    with st.expander("Hier klicken für die API-Rohantwort :point_up_2:"):
         st.write('''
 
         ''')
@@ -167,7 +167,7 @@ uploaded_files = st.file_uploader("**Ziehe einfach ein Bild hierhin oder klicke 
 if uploaded_files:
     for uploaded_file in uploaded_files:
         # Zeige das hochgeladene Bild an
-        st.image(uploaded_file, caption=f"Hochgeladenes Bild: {uploaded_file.name}", use_column_width=True)
+        st.image(uploaded_file, caption=f":frame_with_picture: Hochgeladenes Bild: {uploaded_file.name}", use_column_width=True)
 
         # Speichere das Bild temporär
         temp_path = os.path.join("temp", uploaded_file.name)
