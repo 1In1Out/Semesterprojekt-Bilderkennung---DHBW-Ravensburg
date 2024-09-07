@@ -15,7 +15,6 @@ def encode_image(image_path):
     try:
         with open(image_path, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-        st.success("Bild erfolgreich kodiert!")  # Erfolgsmeldung
         return encoded_image
     except Exception as e:
         st.error(f"Fehler beim Kodieren des Bildes: {e}")
@@ -32,9 +31,10 @@ def json_to_dataframe(content):
 
         # Verwende ausschließlich den Schlüssel "table"
         if "table" in data:
+
             # Konvertiere das Dictionary in einen DataFrame
             df = pd.DataFrame(data["table"])
-            st.success("Tabelle erfolgreich aus JSON erstellt!")  # Erfolgsmeldung
+
         else:
             st.error("Kein 'table'-Schlüssel in den JSON-Daten gefunden.")
             return None
@@ -48,6 +48,7 @@ def json_to_dataframe(content):
     except Exception as e:
         st.error(f"Fehler beim Umwandeln des JSON-Inhalts in einen DataFrame: {e}")
         return None
+
 
 
 def analyze_image(image_path):
@@ -92,7 +93,6 @@ def analyze_image(image_path):
     try:
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         response.raise_for_status()  # Überprüft auf HTTP-Fehler
-        st.success("API-Anfrage erfolgreich!")  # Erfolgsmeldung
     except requests.exceptions.RequestException as e:
         st.error(f"Fehler bei der API-Anfrage: {e}")
         return None
@@ -125,7 +125,6 @@ def analyze_image(image_path):
 # Erstelle den temporären Ordner, falls er nicht existiert
 if not os.path.exists("temp"):
     os.makedirs("temp")
-    st.success("Temporärer Ordner erfolgreich erstellt!")  # Erfolgsmeldung
 
 # Streamlit App Titel
 st.title("Bildanalyse mit Streamlit und JSON-Ausgabe")
@@ -136,13 +135,12 @@ camera_image = st.camera_input("Nimm ein Bild auf")
 if camera_image:
     # Zeige das aufgenommene Bild an
     st.image(camera_image, caption="Aufgenommenes Bild", use_column_width=True)
-    st.success("Bild erfolgreich aufgenommen!")  # Erfolgsmeldung
+
 
     # Speichere das aufgenommene Bild temporär
     temp_path = os.path.join("temp", "camera_image.jpg")
     with open(temp_path, "wb") as f:
         f.write(camera_image.getbuffer())
-    st.success("Bild erfolgreich gespeichert!")  # Erfolgsmeldung
 
     # Rufe die Analyse-Funktion auf
     df = analyze_image(temp_path)
@@ -159,7 +157,6 @@ if camera_image:
             file_name="analyse_ergebnisse_camera_image.csv",
             mime="text/csv",
         )
-        st.success("CSV-Datei erfolgreich erstellt!")  # Erfolgsmeldung
     else:
         st.error(f"Fehler bei der Analyse des aufgenommenen Bildes")
 
@@ -171,13 +168,11 @@ if uploaded_files:
     for uploaded_file in uploaded_files:
         # Zeige das hochgeladene Bild an
         st.image(uploaded_file, caption=f"Hochgeladenes Bild: {uploaded_file.name}", use_column_width=True)
-        st.success(f"Bild {uploaded_file.name} erfolgreich hochgeladen!")  # Erfolgsmeldung
 
         # Speichere das Bild temporär
         temp_path = os.path.join("temp", uploaded_file.name)
         with open(temp_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
-        st.success(f"Bild {uploaded_file.name} erfolgreich gespeichert!")  # Erfolgsmeldung
 
         # Rufe die Analyse-Funktion auf
         df = analyze_image(temp_path)
@@ -194,7 +189,6 @@ if uploaded_files:
                 file_name=f"analyse_ergebnisse_{uploaded_file.name}.csv",
                 mime="text/csv",
             )
-            st.success(f"CSV für {uploaded_file.name} erfolgreich erstellt!")  # Erfolgsmeldung
         else:
             st.error(f"Fehler bei der Analyse von {uploaded_file.name}")
 
@@ -202,4 +196,3 @@ if uploaded_files:
 if os.path.exists("temp"):
     for file in os.listdir("temp"):
         os.remove(os.path.join("temp", file))
-    st.success("Temporäre Dateien erfolgreich gelöscht!")  # Erfolgsmeldung
