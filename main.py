@@ -72,7 +72,7 @@ def analyze_image(image_path):
                         "type": "text",
                         "text": "Analyze the image and create a table with the following columns: Category and Description. "
                     "The categories are based on the date, participants, and the symbols in the image: Crown = Erfolge, "
-                    "Lightbulb = Erkenntnisse, Heart = Positives, Checklist = ToDos. List the corresponding points under the "
+                    "Lightbulb = Erkenntnisse, Heart = Positives :black_heart:, Checklist = ToDos. List the corresponding points under the "
                     "appropriate category, including any text on the right side of the image as additional bullet points in the same row. "
                     "Omit the symbol labels. The table should be well-structured and formatted as pure JSON, using the key 'table'. "
                     "Ignore the use of colors. If bullet points are written side by side, write them on separate lines in the table. "
