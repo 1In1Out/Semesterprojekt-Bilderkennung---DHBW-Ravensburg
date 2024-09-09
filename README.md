@@ -11,6 +11,7 @@ Dieses Projekt implementiert eine Anwendung zur Analyse von Bildern mithilfe der
 ## Funktionen
 
 - **Bild-Upload:** Nutzer können Bilder im JPG-, JPEG- oder PNG-Format hochladen.
+- **Foto-Funktion:** Nutzer können ein Foto aufnehmen, welches dann direkt ausgewertet wird. 
 - **Bildanzeige:** Die hochgeladenen Bilder werden auf der Streamlit-Seite angezeigt.
 - **Bildanalyse:** Die Anwendung kodiert das Bild in Base64 und sendet es an die OpenAI API zur Analyse. Das Ergebnis ist eine Tabelle mit Kategorien und Beschreibungen, die aus dem Bild extrahiert werden.
 - **Tabellendarstellung:** Die Analyseergebnisse werden als Tabelle dargestellt.
@@ -26,7 +27,6 @@ Dieses Projekt implementiert eine Anwendung zur Analyse von Bildern mithilfe der
   - `requests`
   - `pandas`
   - `json`
-  - `re`
   - `os`
 
 Diese können mit folgendem Befehl installiert werden:
